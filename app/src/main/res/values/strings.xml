@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">words</string>
+    <string name="choose_exercise">Choose exercise</string>
+    <string name="choose_language">Choose language</string>
+    <string name="learn_choose_category">Choose category</string>
+    <string name="learn">Choose correct answer</string>
+    <string name="learn_final">Your score</string>
+    <string name="add_word_select_or_create_category">Select or create category</string>
+    <string name="add_word">Add word</string>
+</resources>
