@@ -66,12 +66,15 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.6.0")
     testImplementation("org.testng:testng:6.9.6")
 
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     val room_wersion = "2.5.2"
     //Room
     implementation("androidx.room:room-runtime:$room_wersion")
     implementation("androidx.core:core-ktx:1.10.1")
     ksp("androidx.room:room-compiler:$room_wersion")
     implementation("androidx.room:room-ktx:$room_wersion")
+
 
     // Testing
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

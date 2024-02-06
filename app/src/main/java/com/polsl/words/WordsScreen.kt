@@ -1,5 +1,7 @@
 package com.polsl.words
 
+import android.content.Context
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
@@ -7,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.polsl.words.data.SettingsManager
 import com.polsl.words.ui.StartScreen
 import com.polsl.words.ui.learn.LearnChooseCategoryScreen
 import com.polsl.words.ui.learn.LearnChooseWordsScreen
@@ -21,8 +24,10 @@ enum class WordsScreen(val title: Int) {
 }
 
 @Composable
+@ExperimentalMaterial3Api
 fun WordsApp(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    context: Context
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     // Get the name of the current screen
@@ -42,7 +47,10 @@ fun WordsApp(
 
         }
         composable(route = WordsScreen.Start.name) {
-            StartScreen(onLearnClick = { navController.navigate(WordsScreen.LearnChooseCategory.name) })
+            StartScreen(
+                onLearnClick = { navController.navigate(WordsScreen.LearnChooseCategory.name) },
+                settingsManager = SettingsManager
+            )
         }
 
         composable(route = WordsScreen.LearnFinal.name) {
