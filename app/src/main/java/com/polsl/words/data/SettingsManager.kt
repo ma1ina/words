@@ -7,8 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-object SettingsManager {
-    lateinit var context: Context
+class SettingsManager(private val context: Context) {
 
     private val Context.dataStore by preferencesDataStore("settings")
 

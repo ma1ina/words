@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.polsl.words.data.Language
 import com.polsl.words.data.OriginalWord
 import com.polsl.words.data.OriginalWordDao
+import com.polsl.words.data.SettingsManager
 import com.polsl.words.data.TranslatedWord
 import com.polsl.words.data.TranslatedWordDao
 import kotlinx.coroutines.Dispatchers
@@ -16,8 +17,9 @@ import kotlinx.coroutines.withContext
 
 
 class LearnViewModel(
-    val translatedWordDao: TranslatedWordDao,
+    private val translatedWordDao: TranslatedWordDao,
     private val originalWordDao: OriginalWordDao,
+    private val settingsManager: SettingsManager
 ) : ViewModel() {
 
     private var allCorrectTranslatedWords: List<TranslatedWord> = listOf()
@@ -28,21 +30,29 @@ class LearnViewModel(
         private set
     var chooseWordsUiState by mutableStateOf(ChooseWordsUiState())
     var wordsLeft = 0
+    var language: Language = Language.EN
 
     init {
-
         viewModelScope.launch {
+            settingsManager.selectedLanguageFlow.collect { language ->
+                language.let {
+                    this@LearnViewModel.language = language ?: Language.EN
+                }
+            }
+        }
+        viewModelScope.launch {
+
             val originalWords = withContext(Dispatchers.IO) {
                 originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory)
             }
             randomTranslatedWords = withContext(Dispatchers.IO) {
-                translatedWordDao.getRandomTranslatedWords(language = Settings.choosenLanguage)
+                translatedWordDao.getRandomTranslatedWords(language = language)
             }
             allCorrectTranslatedWords = withContext(Dispatchers.IO) {
                 originalWords.map { originalWord ->
                     translatedWordDao.getTranslatedWordWithOriginalWordAndLanguage(
                         originalWord.originalWordId,
-                        Settings.choosenLanguage
+                        language
                     )
                 }
             }
@@ -111,8 +121,4 @@ data class ChooseWordsUiState(
 data class TranslatedWordAnswer(
     var translatedWord: TranslatedWord = TranslatedWord(0, 0, "Shouldn't show up", Language.EN),
     var isCorrect: Boolean = false
-)
-
-data class SettingsUiState(
-    var selectedLanguage: Language = Language.EN
 )

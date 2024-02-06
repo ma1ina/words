@@ -18,8 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.polsl.words.data.Language
-import com.polsl.words.data.SettingsManager
 import com.polsl.words.ui.tile.WordTile
 import kotlinx.coroutines.launch
 
@@ -28,11 +28,11 @@ import kotlinx.coroutines.launch
 fun StartScreen(
     modifier: Modifier = Modifier,
     onLearnClick: () -> Unit,
-    settingsManager: SettingsManager
+    viewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
-    val selectedLanguage by settingsManager.selectedLanguageFlow.collectAsState(initial = Language.EN)
     val coroutineScope = rememberCoroutineScope()
     var expandedLanguageDropDown by remember { mutableStateOf(false) }
+    val language by viewModel.language.collectAsState(initial = Language.EN)
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -76,23 +76,22 @@ fun StartScreen(
         ) {
             WordTile(
                 onTileClick = { expandedLanguageDropDown = !expandedLanguageDropDown },
-                word = "Zmień język"
+                word = "Wybrany język: ${language?.displayFlag()}"
             ) {
-                val dropdownWidth = 50.dp
                 DropdownMenu(
                     modifier = Modifier
                         .padding(start = 8.dp)
-                        .fillMaxWidth(), // Set the width to fill 50% of the available space
+                        .fillMaxWidth(),
                     expanded = expandedLanguageDropDown,
                     onDismissRequest = { expandedLanguageDropDown = false }
                 ) {
                     Language.values().forEach { language ->
                         WordTile(onTileClick = {
                             coroutineScope.launch {
-                                settingsManager.saveSelectedLanguage(language)
+                                viewModel.settingsManager.saveSelectedLanguage(language)
                             }
                             expandedLanguageDropDown = false
-                        }, word = language.name)
+                        }, word = "${language.displayName()} ${language.displayFlag()}")
                     }
                 }
             }

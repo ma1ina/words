@@ -2,13 +2,15 @@ package com.polsl.words.data
 
 import android.content.Context
 
-interface AppContainer{
-    val categoryDao:CategoryDao
+interface AppContainer {
+    val categoryDao: CategoryDao
     val originalWordDao: OriginalWordDao
     val translatedWordDao: TranslatedWordDao
+    val settingsManager: SettingsManager
 
 }
-class AppDataContainer(private val context:Context):AppContainer {
+
+class AppDataContainer(private val context: Context) : AppContainer {
     override val categoryDao: CategoryDao by lazy {
         WordsDatabase.getDatabase(context).categoryDao()
     }
@@ -18,5 +20,7 @@ class AppDataContainer(private val context:Context):AppContainer {
     override val translatedWordDao: TranslatedWordDao by lazy {
         WordsDatabase.getDatabase(context).translatedWordDao()
     }
+    override val settingsManager = SettingsManager(context)
+
 
 }

@@ -1,4 +1,4 @@
-package com.polsl.words.ui.learn
+package com.polsl.words.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,10 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.polsl.words.ui.AppViewModelProvider
+import com.polsl.words.ui.learn.Settings
 import com.polsl.words.ui.tile.WordTile
 
 @Composable
-fun LearnChooseCategoryScreen(
+fun ChooseCategoryScreen(
     modifier: Modifier = Modifier,
     viewModel: ChooseCategoryViewModel = viewModel(factory = AppViewModelProvider.Factory),
     onCategoryClick: () -> Unit,

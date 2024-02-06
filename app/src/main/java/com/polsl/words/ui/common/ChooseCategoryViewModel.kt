@@ -1,4 +1,4 @@
-package com.polsl.words.ui.learn
+package com.polsl.words.ui.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

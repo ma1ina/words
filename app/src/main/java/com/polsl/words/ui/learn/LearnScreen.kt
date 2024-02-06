@@ -15,7 +15,7 @@ import com.polsl.words.ui.AppViewModelProvider
 import com.polsl.words.ui.tile.WordTile
 
 @Composable
-fun LearnChooseWordsScreen(
+fun LearnScreen(
     modifier: Modifier = Modifier,
     viewModel: LearnViewModel = viewModel(factory = AppViewModelProvider.Factory),
     onFinalScreenClicked: () -> Unit
