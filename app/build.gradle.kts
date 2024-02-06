@@ -1,4 +1,3 @@
-
 @file:Suppress("UnstableApiUsage")
 
 plugins {
@@ -11,7 +10,7 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.inventory"
+        applicationId = "com.polsl.words"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -33,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_18
+        targetCompatibility = JavaVersion.VERSION_18
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "18"
     }
     buildFeatures {
         compose = true
@@ -67,7 +66,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.6.0")
     testImplementation("org.testng:testng:6.9.6")
 
-    val room_wersion ="2.5.2"
+    val room_wersion = "2.5.2"
     //Room
     implementation("androidx.room:room-runtime:$room_wersion")
     implementation("androidx.core:core-ktx:1.10.1")

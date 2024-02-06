@@ -2,15 +2,15 @@ package com.polsl.words
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.polsl.words.ui.WordsViewModel
-import com.polsl.words.ui.learn.ChooseWordsScreen
+import com.polsl.words.ui.StartScreen
+import com.polsl.words.ui.learn.LearnChooseCategoryScreen
+import com.polsl.words.ui.learn.LearnChooseWordsScreen
+import com.polsl.words.ui.learn.LearnFinalScreen
 
 
 enum class WordsScreen(val title: Int) {
@@ -22,7 +22,6 @@ enum class WordsScreen(val title: Int) {
 
 @Composable
 fun WordsApp(
-    viewModel: WordsViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -34,9 +33,21 @@ fun WordsApp(
         navController = navController,
         startDestination = WordsScreen.Start.name
     ) {
+        composable(route = WordsScreen.Learn.name) {
+            LearnChooseWordsScreen(onFinalScreenClicked = { navController.navigate(WordsScreen.LearnFinal.name) })
+        }
+
         composable(route = WordsScreen.LearnChooseCategory.name) {
-            ChooseWordsScreen(modifier = Modifier)
+            LearnChooseCategoryScreen(onCategoryClick = { navController.navigate(WordsScreen.Learn.name) })
 
         }
+        composable(route = WordsScreen.Start.name) {
+            StartScreen(onLearnClick = { navController.navigate(WordsScreen.LearnChooseCategory.name) })
+        }
+
+        composable(route = WordsScreen.LearnFinal.name) {
+            LearnFinalScreen(onStartScreenClick = { navController.navigate(WordsScreen.Start.name) })
+        }
+
     }
 }

@@ -17,7 +17,11 @@ interface OriginalWordDao {
     fun getOriginalWord(originalWordId: Int): Flow<OriginalWord>
 
     @Query("SELECT * from originalWords WHERE categoryId=:categoryId")
-    fun getOriginalWordWithCategory(categoryId:Int):Flow<List<OriginalWord>>
+    fun getOriginalWordWithCategory(categoryId: Int): List<OriginalWord>
+
+    @Query("SELECT COUNT(*) AS elementCount FROM originalWords WHERE categoryId = :categoryId")
+    fun countOriginalWordsWithCategory(categoryId: Int): Int
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(originalWord: OriginalWord)
 
