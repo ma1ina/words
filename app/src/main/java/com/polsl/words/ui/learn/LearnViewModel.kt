@@ -26,8 +26,7 @@ class LearnViewModel(
     private var randomTranslatedWords: List<TranslatedWord> = listOf()
     private var allOriginalWords: List<OriginalWord> = listOf()
     private var previousOriginalWords: Set<OriginalWord> = setOf()
-    var currentScore: Int = 0
-        private set
+
     var chooseWordsUiState by mutableStateOf(ChooseWordsUiState())
     var wordsLeft = 0
     var language: Language = Language.EN

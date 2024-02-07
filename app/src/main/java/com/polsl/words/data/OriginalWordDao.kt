@@ -22,6 +22,9 @@ interface OriginalWordDao {
     @Query("SELECT COUNT(*) AS elementCount FROM originalWords WHERE categoryId = :categoryId")
     fun countOriginalWordsWithCategory(categoryId: Int): Int
 
+    @Query("SELECT COUNT(*) FROM originalWords")
+    fun getOriginalWordsCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(originalWord: OriginalWord)
 

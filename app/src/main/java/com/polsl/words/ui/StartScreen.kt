@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 fun StartScreen(
     modifier: Modifier = Modifier,
     onLearnClick: () -> Unit,
+    onDictionaryClick: () -> Unit,
     viewModel: StartViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -65,7 +66,7 @@ fun StartScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            WordTile(modifier = Modifier, onTileClick = { print("test") }, word = "Test")
+            WordTile(modifier = Modifier, onTileClick = onDictionaryClick, word = "Słownik")
         }
         Row(
             modifier = Modifier
@@ -76,7 +77,7 @@ fun StartScreen(
         ) {
             WordTile(
                 onTileClick = { expandedLanguageDropDown = !expandedLanguageDropDown },
-                word = "Wybrany język: ${language?.displayFlag()}"
+                word = "Wybrany język: ${language?.displayFlag() ?: Language.EN.displayFlag()}"
             ) {
                 DropdownMenu(
                     modifier = Modifier

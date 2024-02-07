@@ -5,7 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "categories")
 data class Category(
-    @PrimaryKey
-    val categoryId:Int,
+    @PrimaryKey(autoGenerate = true)
+    val categoryId: Int,
     val name: String
-)
+) {
+    constructor(name: String) : this(0, name)
+}

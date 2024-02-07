@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CategoryDao {
-    @Query ("SELECT * FROM categories")
+    @Query("SELECT * FROM categories")
     fun getAllCategories(): Flow<List<Category>>
 
     @Query("SELECT * from categories WHERE categoryId = :id")
@@ -19,6 +19,9 @@ interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(category: Category)
 
+    @Query("SELECT COUNT(*) FROM categories")
+    fun getCategoriesCount(): Int
+    
     @Update
     suspend fun update(category: Category)
 

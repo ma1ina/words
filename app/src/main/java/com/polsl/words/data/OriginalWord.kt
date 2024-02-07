@@ -5,8 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "originalWords")
 data class OriginalWord(
-    @PrimaryKey
-    val originalWordId:Int,
-    val word:String,
+    @PrimaryKey(autoGenerate = true)
+    val originalWordId: Int,
+    val word: String,
     val categoryId: Int
-)
+) {
+    constructor(word: String, categoryId: Int) : this(0, word, categoryId)
+}

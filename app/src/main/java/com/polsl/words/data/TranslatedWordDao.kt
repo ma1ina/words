@@ -28,6 +28,12 @@ interface TranslatedWordDao {
         limit: Int = 100,
     ): List<TranslatedWord>
 
+    @Query("SELECT COUNT(*) FROM translatedWords")
+    fun getTranslatedWordsCount(): Int
+
+    @Query("SELECT COUNT(*) FROM translatedWords WHERE originalWordId = :originalWordId")
+    fun getTranslatedWordsCountWithOriginalWordId(originalWordId: Int): Int
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(translatedWord: TranslatedWord)
 
