@@ -16,17 +16,28 @@ interface OriginalWordDao {
     @Query("SELECT * from originalWords WHERE originalWordId = :originalWordId")
     fun getOriginalWord(originalWordId: Int): Flow<OriginalWord>
 
-    @Query("SELECT * from originalWords WHERE categoryId=:categoryId")
-    fun getOriginalWordWithCategory(categoryId: Int): List<OriginalWord>
+    @Query(
+        "SELECT ow.originalWordId, ow.word, ow.categoryId\n" +
+                "FROM originalWords ow\n" +
+                "JOIN translatedWords tw ON ow.originalWordId = tw.originalWordId\n" +
+                "WHERE ow.categoryId = :categoryId\n" +
+                "AND tw.language = :language"
+    )
+    fun getOriginalWordWithCategory(categoryId: Int, language: Language): List<OriginalWord>
 
-    @Query("SELECT COUNT(*) AS elementCount FROM originalWords WHERE categoryId = :categoryId")
-    fun countOriginalWordsWithCategory(categoryId: Int): Int
+    @Query(
+        "SELECT COUNT(*)\n" +
+                "FROM originalWords ow\n" +
+                "JOIN translatedWords tw ON ow.originalWordId = tw.originalWordId\n" +
+                "WHERE ow.categoryId = :categoryId\n" +
+                "AND tw.language = :language")
+    fun countOriginalWordsWithCategory(categoryId: Int,language: Language): Int
 
     @Query("SELECT COUNT(*) FROM originalWords")
     fun getOriginalWordsCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(originalWord: OriginalWord)
+    suspend fun insert(originalWord: OriginalWord):Long
 
     @Update
     suspend fun update(originalWord: OriginalWord)

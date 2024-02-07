@@ -38,15 +38,12 @@ class DictionaryViewModel(
         }
         viewModelScope.launch {
             val wordPairs: MutableList<Pair<OriginalWord, TranslatedWord>> = mutableListOf()
-            originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory)
+            originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory, language)
                 .map { originalWord ->
-                    wordPairs += Pair(
-                        originalWord,
-                        translatedWordDao.getTranslatedWordWithOriginalWordAndLanguage(
-                            originalWord.originalWordId,
-                            language
-                        )
-                    )
+                    translatedWordDao.getTranslatedWordWithOriginalWordAndLanguage(
+                        originalWord.originalWordId,
+                        language
+                    )?.let { wordPairs += Pair(originalWord, it) }
                 }
             dictionaryUiState = dictionaryUiState.copy(wordPairs = wordPairs)
         }
@@ -76,7 +73,20 @@ class DictionaryViewModel(
     }
 
     fun addWords(newOriginalWord: String, newTranslatedWord: String) {
-        val originalWord = OriginalWord(newOriginalWord, Settings.choosenCategory)
+        var originalWord = OriginalWord(newOriginalWord, Settings.choosenCategory)
+        var originalWordId = 0
+        viewModelScope.launch {
+            originalWordId = originalWordDao.insert(originalWord).toInt()
+            translatedWordDao.insert(
+                TranslatedWord(
+                    originalWordId,
+                    newTranslatedWord,
+                    language
+                )
+            )
+            refreshViewModel()
+        }
+
     }
 }
 

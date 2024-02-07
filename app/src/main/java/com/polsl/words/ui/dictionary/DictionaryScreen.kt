@@ -153,8 +153,10 @@ fun DictionaryScreen(
                 confirmButton = {
                     Button(
                         onClick = {
-                            viewModel.addWords(newOriginalWord, newTranslatedWord)
-                            showDialog = false
+                            if (newTranslatedWordIsValid && newOriginalWordIsValid) {
+                                viewModel.addWords(newOriginalWord, newTranslatedWord)
+                                showDialog = false
+                            }
                         }
                     ) {
                         Text(text = "Add")

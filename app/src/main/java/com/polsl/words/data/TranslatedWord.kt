@@ -10,7 +10,14 @@ data class TranslatedWord(
     val originalWordId: Int,
     val word: String,
     val language: Language
-)
+) {
+    constructor(originalWordId: Int, word: String, language: Language) : this(
+        0,
+        originalWordId,
+        word,
+        language
+    )
+}
 
 enum class Language {
     EN, ES, DE, FR;

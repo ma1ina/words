@@ -22,7 +22,8 @@ object AppViewModelProvider {
         initializer {
             LearnCategoryViewModel(
                 wordsApplication().container.categoryDao,
-                wordsApplication().container.originalWordDao
+                wordsApplication().container.originalWordDao,
+                wordsApplication().container.settingsManager
             )
         }
         initializer {

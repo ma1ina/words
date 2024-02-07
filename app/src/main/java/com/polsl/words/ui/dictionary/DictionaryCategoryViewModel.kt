@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.polsl.words.data.Category
 import com.polsl.words.data.CategoryDao
+import com.polsl.words.data.Language
 import com.polsl.words.data.OriginalWordDao
 import com.polsl.words.ui.learn.Settings
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,8 +32,11 @@ class DictionaryCategoryViewModel(
         }
     }
 
-    fun checkIfThereAreWords(): Boolean {
-        return originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory).size < 2
+    fun checkIfThereAreWords(language: Language): Boolean {
+        return originalWordDao.getOriginalWordWithCategory(
+            Settings.choosenCategory,
+            language
+        ).size < 2
     }
 
     companion object {

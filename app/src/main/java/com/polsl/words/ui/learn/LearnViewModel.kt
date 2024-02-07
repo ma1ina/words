@@ -42,7 +42,8 @@ class LearnViewModel(
         viewModelScope.launch {
 
             val originalWords = withContext(Dispatchers.IO) {
-                originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory)
+                originalWordDao.getOriginalWordWithCategory(Settings.choosenCategory, language)
+
             }
             randomTranslatedWords = withContext(Dispatchers.IO) {
                 translatedWordDao.getRandomTranslatedWords(language = language)
@@ -56,7 +57,8 @@ class LearnViewModel(
                 }
             }
 
-            allOriginalWords = originalWords
+            allOriginalWords =
+                originalWords
             getRandomWord()
         }
     }
@@ -89,7 +91,7 @@ class LearnViewModel(
     private fun fillTranslatedWords(originalWord: OriginalWord): List<TranslatedWordAnswer> {
 
         val correctTranslatedWord =
-            allCorrectTranslatedWords.find { it.originalWordId == originalWord.originalWordId }
+            allCorrectTranslatedWords?.find { it.originalWordId == originalWord.originalWordId }
                 ?: throw IllegalStateException("No correct translated word found for the given original word")
         val otherTranslatedWords = randomTranslatedWords.filterNot { it == correctTranslatedWord }
             .shuffled()
