@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.polsl.words.WordsApplication
 import com.polsl.words.ui.dictionary.DictionaryCategoryViewModel
 import com.polsl.words.ui.dictionary.DictionaryViewModel
+import com.polsl.words.ui.exam.ExamCategoryViewModel
+import com.polsl.words.ui.exam.ExamViewModel
 import com.polsl.words.ui.learn.LearnCategoryViewModel
 import com.polsl.words.ui.learn.LearnViewModel
 
@@ -42,6 +44,21 @@ object AppViewModelProvider {
                 wordsApplication().container.settingsManager
             )
         }
+        initializer {
+            ExamCategoryViewModel(
+                wordsApplication().container.categoryDao,
+                wordsApplication().container.originalWordDao,
+                wordsApplication().container.settingsManager
+            )
+        }
+        initializer {
+            ExamViewModel(
+                wordsApplication().container.translatedWordDao,
+                wordsApplication().container.originalWordDao,
+                wordsApplication().container.settingsManager
+            )
+        }
+
     }
 }
 

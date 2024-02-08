@@ -11,6 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.polsl.words.ui.StartScreen
 import com.polsl.words.ui.dictionary.DictionaryCategoryScreen
 import com.polsl.words.ui.dictionary.DictionaryScreen
+import com.polsl.words.ui.exam.ExamCategoryScreen
+import com.polsl.words.ui.exam.ExamFinalScreen
+import com.polsl.words.ui.exam.ExamScreen
 import com.polsl.words.ui.learn.LearnCategoryScreen
 import com.polsl.words.ui.learn.LearnFinalScreen
 import com.polsl.words.ui.learn.LearnScreen
@@ -22,7 +25,10 @@ enum class WordsScreen() {
     Learn,
     LearnFinal,
     DictionaryCategory,
-    Dictionary
+    Dictionary,
+    ExamCategory,
+    Exam,
+    ExamFinal
 }
 
 @Composable
@@ -51,11 +57,18 @@ fun WordsApp(
             StartScreen(
                 onDictionaryClick = { navController.navigate(WordsScreen.DictionaryCategory.name) },
                 onLearnClick = { navController.navigate(WordsScreen.LearnCategory.name) },
+                onExamClick = { navController.navigate(WordsScreen.ExamCategory.name) },
             )
         }
 
         composable(route = WordsScreen.LearnFinal.name) {
-            LearnFinalScreen(onStartScreenClick = { navController.navigate(WordsScreen.Start.name) })
+            LearnFinalScreen(onStartScreenClick = {
+                navController.navigate(WordsScreen.Start.name) {
+                    popUpTo(
+                        0
+                    )
+                }
+            })
         }
 
         composable(route = WordsScreen.DictionaryCategory.name) {
@@ -64,6 +77,23 @@ fun WordsApp(
         composable(route = WordsScreen.Dictionary.name) {
             DictionaryScreen(onWordClick = {})
         }
+        composable(route = WordsScreen.ExamCategory.name) {
+            ExamCategoryScreen(onCategoryClick = { navController.navigate(WordsScreen.Exam.name) })
 
+        }
+        composable(route = WordsScreen.Exam.name) {
+            ExamScreen(onFinalScreenClicked = { navController.navigate(WordsScreen.ExamFinal.name) })
+
+
+        }
+        composable(route = WordsScreen.ExamFinal.name) {
+            ExamFinalScreen(onStartScreenClick = {
+                navController.navigate(WordsScreen.Start.name) {
+                    popUpTo(
+                        0
+                    )
+                }
+            })
+        }
     }
 }

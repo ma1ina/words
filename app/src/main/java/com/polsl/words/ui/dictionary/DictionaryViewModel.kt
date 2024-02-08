@@ -69,7 +69,7 @@ class DictionaryViewModel(
     }
 
     fun validateField(input: String): Boolean {
-        return input.contains(Regex("^[a-zA-Z]{1,20}$"))
+        return input.contains(Regex("^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]{1,20}\$"))
     }
 
     fun addWords(newOriginalWord: String, newTranslatedWord: String) {

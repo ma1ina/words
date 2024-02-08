@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,7 +37,7 @@ fun WordTile(
         onClick = onTileClick
     ) {
         Text(
-            text = word,
+            text = word.toUpperCase(),
             maxLines = 1,
             softWrap = false,
             style = textStyle,

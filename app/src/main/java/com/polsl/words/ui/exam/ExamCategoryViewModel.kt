@@ -1,4 +1,4 @@
-package com.polsl.words.ui.learn
+package com.polsl.words.ui.exam
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class LearnCategoryViewModel(
+class ExamCategoryViewModel(
     val categoryDao: CategoryDao,
     val originalWordDao: OriginalWordDao,
     val settingsManager: SettingsManager
@@ -27,13 +27,12 @@ class LearnCategoryViewModel(
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
                 initialValue = ChooseCategoryUiState()
             )
-    
 
     init {
         viewModelScope.launch {
             settingsManager.selectedLanguageFlow.collect { language ->
                 language.let {
-                    this@LearnCategoryViewModel.language = language ?: Language.EN
+                    this@ExamCategoryViewModel.language = language ?: Language.EN
                 }
             }
         }
